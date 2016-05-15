@@ -4,18 +4,20 @@ var path = require('path');
 
 app.set('port', 3000);
 
+// 3 paramenters req, res, next()
+// order of middleware is important
+app.use(function(req, res, next) {
+  console.log(req.method, req.url);
+  next();
+});
+
 // middleware will serve up all the static content in the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// http method get as basic route for the home page
-// req and res are the typical parameters for the callback funtion
 // app.get('/', function(req, res) {
 //   console.log('GET the homepage');
 //   res
 //     .status(200)
-    // .sendFile method. Pass the name of the file you want to send
-    // needs the native node module named "path"
-    // use path.join to create file path, __dirname finds current directory, public for folder, name the file
 //     .sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
