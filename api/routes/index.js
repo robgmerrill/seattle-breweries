@@ -7,5 +7,9 @@ router
   .route('/breweries')
   .get(ctrlBreweries.breweriesGetAll);
 
+router
+  .route('/breweries/:breweryId')
+  .get(ctrlBreweries.breweriesGetOne);
+
 module.exports = router;
 
