@@ -11,5 +11,9 @@ router
   .route('/breweries/:breweryId')
   .get(ctrlBreweries.breweriesGetOne);
 
+router
+  .route('/breweries/new')
+  .post(ctrlBreweries.breweriesAddOne);
+
 module.exports = router;
 
