@@ -1,6 +1,11 @@
+var dbconn = require('../data/dbconnection.js');
 var breweriesData = require('../data/breweries-data.json');
 
 module.exports.breweriesGetAll = function(req, res) {
+  
+  var db = dbconn.get();
+  console.log('db', db);
+
   console.log('GET the breweries');
   console.log(req.query);
 
