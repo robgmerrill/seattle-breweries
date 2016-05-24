@@ -8,7 +8,7 @@ var open = function() {
   MongoClient.connect(dburl, function(err, db) {
     if (err) {
       console.log("DB connection failed");
-      return
+      return;
     }
     _connection = db;
     console.log("DB connection open", db);

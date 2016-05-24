@@ -4,27 +4,40 @@ var breweriesData = require('../data/breweries-data.json');
 module.exports.breweriesGetAll = function(req, res) {
   
   var db = dbconn.get();
-  console.log('db', db);
+  var collection = db.collection('brewery'); // check grammar on brewery
 
-  console.log('GET the breweries');
-  console.log(req.query);
+  collection
+  .find()
+  .toArray(function(err, docs) {
+    console.log('Breweries found', docs);
+    res
+      .status(200)
+      .json(docs);    
+  });
 
-  var offset = 0;
-  var count = 5;
 
-  if (req.query && req.query.offset) {
-    offset = parseInt(req.query.offset, 10);
-  }
 
-  if (req.query && req.query.count) {
-    count = parseInt(req.query.count, 10);
-  }
+  // console.log('db', db);
 
-  var returnData = breweriesData.slice(offset, offset+count);
+  // console.log('GET the breweries');
+  // console.log(req.query);
 
-  res
-    .status(200)
-    .send( returnData );
+  // var offset = 0;
+  // var count = 5;
+
+  // if (req.query && req.query.offset) {
+  //   offset = parseInt(req.query.offset, 10);
+  // }
+
+  // if (req.query && req.query.count) {
+  //   count = parseInt(req.query.count, 10);
+  // }
+
+  // var returnData = breweriesData.slice(offset, offset+count);
+
+  // res
+  //   .status(200)
+  //   .send( returnData );
   };
 
 module.exports.breweriesGetOne = function(req, res) {
