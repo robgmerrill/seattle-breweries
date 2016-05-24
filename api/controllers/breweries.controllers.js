@@ -1,4 +1,5 @@
 var dbconn = require('../data/dbconnection.js');
+var ObjectId = require('mongodb').ObjectId;
 var breweriesData = require('../data/breweries-data.json');
 
 module.exports.breweriesGetAll = function(req, res) {
@@ -6,47 +7,44 @@ module.exports.breweriesGetAll = function(req, res) {
   var db = dbconn.get();
   var collection = db.collection('brewery'); // check grammar on brewery
 
+   var offset = 0;
+  var count = 5;
+
+  if (req.query && req.query.offset) {
+    offset = parseInt(req.query.offset, 10);
+  }
+
+  if (req.query && req.query.count) {
+    count = parseInt(req.query.count, 10);
+  }
+
   collection
   .find()
+  .skip(offset)
+  .limit(count)
   .toArray(function(err, docs) {
     console.log('Breweries found', docs);
     res
       .status(200)
       .json(docs);    
   });
-
-
-
-  // console.log('db', db);
-
-  // console.log('GET the breweries');
-  // console.log(req.query);
-
-  // var offset = 0;
-  // var count = 5;
-
-  // if (req.query && req.query.offset) {
-  //   offset = parseInt(req.query.offset, 10);
-  // }
-
-  // if (req.query && req.query.count) {
-  //   count = parseInt(req.query.count, 10);
-  // }
-
-  // var returnData = breweriesData.slice(offset, offset+count);
-
-  // res
-  //   .status(200)
-  //   .send( returnData );
   };
 
 module.exports.breweriesGetOne = function(req, res) {
+  var db = dbconn.get();
+  var collection = db.collection('brewery'); // check grammar on brewery
+
   var breweryId = req.params.breweryId;
-  var thisBrewery = breweriesData[breweryId];
   console.log('GET the brewery ID', breweryId);
-  res
+
+  collection
+    .findOne({
+      _id : ObjectId(breweryId)
+    }, function(err, doc) {
+    res
     .status(200)
-    .send( thisBrewery );
+    .json( doc );      
+    });
   };
 
 module.exports.breweriesAddOne = function(req, res) {
